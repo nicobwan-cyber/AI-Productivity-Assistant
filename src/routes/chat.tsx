@@ -93,10 +93,13 @@ function ChatPage() {
               {messages.map((m, i) => (
                 <div
                   key={i}
-                  className={cn("flex gap-3", m.role === "user" ? "justify-end" : "justify-start")}
+                  className={cn(
+                    "flex gap-3 animate-msg-in",
+                    m.role === "user" ? "justify-end" : "justify-start",
+                  )}
                 >
                   {m.role === "assistant" && (
-                    <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary">
+                    <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-muted text-foreground">
                       <Sparkles className="h-4 w-4" />
                     </div>
                   )}
@@ -104,7 +107,7 @@ function ChatPage() {
                     className={cn(
                       "rounded-2xl px-4 py-2.5 max-w-[80%] text-sm whitespace-pre-wrap leading-relaxed",
                       m.role === "user"
-                        ? "bg-primary text-primary-foreground rounded-br-sm"
+                        ? "bg-foreground text-background rounded-br-sm"
                         : "bg-muted rounded-bl-sm",
                     )}
                   >
@@ -118,14 +121,15 @@ function ChatPage() {
                 </div>
               ))}
               {loading && (
-                <div className="flex gap-3">
-                  <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary">
+                <div className="flex gap-3 animate-msg-in">
+                  <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-muted text-foreground">
                     <Sparkles className="h-4 w-4" />
                   </div>
-                  <div className="rounded-2xl bg-muted px-4 py-3 flex items-center gap-1">
-                    <span className="h-2 w-2 rounded-full bg-muted-foreground/60 animate-bounce" />
-                    <span className="h-2 w-2 rounded-full bg-muted-foreground/60 animate-bounce [animation-delay:120ms]" />
-                    <span className="h-2 w-2 rounded-full bg-muted-foreground/60 animate-bounce [animation-delay:240ms]" />
+                  <div className="rounded-2xl bg-muted px-4 py-3 flex items-center gap-1.5">
+                    <span className="h-1.5 w-1.5 rounded-full bg-foreground/60 typing-dot" />
+                    <span className="h-1.5 w-1.5 rounded-full bg-foreground/60 typing-dot [animation-delay:160ms]" />
+                    <span className="h-1.5 w-1.5 rounded-full bg-foreground/60 typing-dot [animation-delay:320ms]" />
+                    <span className="ml-2 text-xs text-muted-foreground">AI is thinking…</span>
                   </div>
                 </div>
               )}
@@ -133,6 +137,21 @@ function ChatPage() {
           )}
         </div>
         <div className="border-t p-3 md:p-4">
+          {messages.length > 0 && (
+            <div className="max-w-3xl mx-auto mb-3 flex flex-wrap gap-2">
+              {STARTERS.map((s) => (
+                <button
+                  key={s}
+                  type="button"
+                  onClick={() => send(s)}
+                  disabled={loading}
+                  className="rounded-full border border-border bg-background px-3 py-1 text-xs text-muted-foreground hover:bg-muted hover:text-foreground hover:border-foreground/30"
+                >
+                  {s}
+                </button>
+              ))}
+            </div>
+          )}
           <form
             onSubmit={(e) => {
               e.preventDefault();

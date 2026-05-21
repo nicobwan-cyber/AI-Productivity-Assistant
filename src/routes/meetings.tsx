@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { FileText, Loader2, Eraser } from "lucide-react";
+import { AiThinking } from "@/components/ai-loading";
 import { PageHeader } from "@/components/page-header";
 import { AiDisclaimer } from "@/components/ai-disclaimer";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
@@ -66,6 +67,7 @@ function MeetingsPage() {
       const prompt = `Meeting title: ${title || "Untitled meeting"}\nSummary style: ${style}\n\nMeeting notes / transcript:\n${notes}`;
       const text = await runAi(SYSTEM, prompt);
       setRaw(text);
+      toast.success("Summary generated");
     } catch (e) {
       toast.error((e as Error).message);
     } finally {
@@ -149,16 +151,21 @@ function MeetingsPage() {
         <div className="lg:col-span-3 space-y-4">
           {loading && !sections && (
             <Card className="shadow-sm">
-              <CardContent className="flex flex-col items-center justify-center py-20 text-muted-foreground">
-                <Loader2 className="h-8 w-8 animate-spin text-primary" />
-                <p className="text-sm mt-3">Reading and structuring your meeting…</p>
+              <CardContent className="py-8">
+                <AiThinking label="Reading and structuring your meeting…" lines={6} />
               </CardContent>
             </Card>
           )}
           {!loading && !sections && (
             <Card className="shadow-sm border-dashed">
-              <CardContent className="p-10 text-center text-sm text-muted-foreground">
-                Your structured summary will appear here.
+              <CardContent className="p-10 text-center">
+                <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full border bg-background text-muted-foreground">
+                  <FileText className="h-5 w-5" />
+                </div>
+                <p className="mt-3 text-sm font-medium">No summary yet</p>
+                <p className="mt-1 text-xs text-muted-foreground">
+                  Paste a transcript or rough notes to get a structured recap.
+                </p>
               </CardContent>
             </Card>
           )}

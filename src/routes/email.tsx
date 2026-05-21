@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
-import { Mail, Loader2, RotateCw, Eraser } from "lucide-react";
+import { Mail, Loader2, RotateCw, Eraser, Sparkles } from "lucide-react";
+import { AiThinking } from "@/components/ai-loading";
 import { PageHeader } from "@/components/page-header";
 import { AiDisclaimer } from "@/components/ai-disclaimer";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
@@ -53,6 +54,7 @@ function EmailPage() {
       const prompt = `Purpose: ${purpose}\nAudience/Recipient: ${audience || "general professional contact"}\nTone: ${tone}\nKey points to include:\n${points || "(none specified)"}\nDesired length: ${length}`;
       const text = await runAi(SYSTEM, prompt);
       setResult(parseEmail(text));
+      toast.success("Email generated");
     } catch (e) {
       toast.error((e as Error).message);
     } finally {
@@ -67,7 +69,14 @@ function EmailPage() {
     setPoints("");
     setLength("Medium");
     setResult(null);
+    toast("Output cleared");
   }
+
+  const EXAMPLES = [
+    "Follow up with a prospect after a demo",
+    "Politely decline a meeting request",
+    "Request a deadline extension on a project",
+  ];
 
   return (
     <div className="space-y-6">
@@ -177,15 +186,29 @@ function EmailPage() {
             )}
           </CardHeader>
           <CardContent>
-            {loading && !result && (
-              <div className="flex flex-col items-center justify-center py-16 text-muted-foreground">
-                <Loader2 className="h-8 w-8 animate-spin text-primary" />
-                <p className="text-sm mt-3">Drafting your email…</p>
-              </div>
-            )}
+            {loading && !result && <AiThinking label="Drafting your email…" lines={6} />}
             {!loading && !result && (
-              <div className="rounded-xl border border-dashed bg-muted/30 p-10 text-center text-sm text-muted-foreground">
-                Your generated email will appear here.
+              <div className="rounded-xl border border-dashed bg-muted/30 p-8 text-center">
+                <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full border bg-background text-muted-foreground">
+                  <Mail className="h-5 w-5" />
+                </div>
+                <p className="mt-3 text-sm font-medium">No email yet</p>
+                <p className="mt-1 text-xs text-muted-foreground">
+                  Describe your purpose, or try an example:
+                </p>
+                <div className="mt-4 flex flex-wrap justify-center gap-2">
+                  {EXAMPLES.map((ex) => (
+                    <button
+                      key={ex}
+                      type="button"
+                      onClick={() => setPurpose(ex)}
+                      className="rounded-full border bg-background px-3 py-1 text-xs text-muted-foreground hover:bg-muted hover:text-foreground hover:border-foreground/30"
+                    >
+                      <Sparkles className="mr-1 inline h-3 w-3" />
+                      {ex}
+                    </button>
+                  ))}
+                </div>
               </div>
             )}
             {result && (

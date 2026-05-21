@@ -85,7 +85,7 @@ function Dashboard() {
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {stats.map((s) => (
-          <Card key={s.label} className="shadow-sm">
+          <Card key={s.label} className="shadow-sm card-lift">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium text-muted-foreground">{s.label}</CardTitle>
               <div className="flex h-8 w-8 items-center justify-center rounded-md bg-primary/10 text-primary">
@@ -132,7 +132,7 @@ function Dashboard() {
         </Card>
 
         <div className="space-y-6">
-          <Card className="shadow-sm">
+          <Card className="shadow-sm card-lift">
             <CardHeader>
               <CardTitle>Recent activity</CardTitle>
               <CardDescription>Your latest AI-generated work.</CardDescription>
