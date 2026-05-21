@@ -69,7 +69,14 @@ function EmailPage() {
     setPoints("");
     setLength("Medium");
     setResult(null);
+    toast("Output cleared");
   }
+
+  const EXAMPLES = [
+    "Follow up with a prospect after a demo",
+    "Politely decline a meeting request",
+    "Request a deadline extension on a project",
+  ];
 
   return (
     <div className="space-y-6">
