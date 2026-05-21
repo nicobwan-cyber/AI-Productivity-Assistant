@@ -86,6 +86,7 @@ function TasksPage() {
       const prompt = `Working hours preference: ${hours}\n\nTasks:\n${taskList}`;
       const text = await runAi(SYSTEM, prompt);
       setRaw(text);
+      toast.success("Task plan created");
     } catch (e) {
       toast.error((e as Error).message);
     } finally {
