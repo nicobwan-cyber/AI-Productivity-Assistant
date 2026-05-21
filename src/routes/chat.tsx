@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { MessageSquare, Send, Sparkles, User, Loader2 } from "lucide-react";
 import { PageHeader } from "@/components/page-header";
 import { AiDisclaimer } from "@/components/ai-disclaimer";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { runAi } from "@/lib/ai-client";
