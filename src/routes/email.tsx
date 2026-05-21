@@ -54,6 +54,7 @@ function EmailPage() {
       const prompt = `Purpose: ${purpose}\nAudience/Recipient: ${audience || "general professional contact"}\nTone: ${tone}\nKey points to include:\n${points || "(none specified)"}\nDesired length: ${length}`;
       const text = await runAi(SYSTEM, prompt);
       setResult(parseEmail(text));
+      toast.success("Email generated");
     } catch (e) {
       toast.error((e as Error).message);
     } finally {
