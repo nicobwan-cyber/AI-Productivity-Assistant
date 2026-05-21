@@ -114,13 +114,15 @@ function RootShell({ children }: { children: React.ReactNode }) {
 }
 
 function AppLayout() {
+  const router = useRouter();
+  const pathname = router.state.location.pathname;
   return (
     <SidebarProvider>
       <div className="flex min-h-screen w-full bg-background">
         <AppSidebar />
         <div className="flex flex-1 flex-col min-w-0">
           <AppHeader />
-          <main className="flex-1 px-4 py-6 md:px-8 md:py-8">
+          <main key={pathname} className="flex-1 px-4 py-6 md:px-8 md:py-8 animate-page-in">
             <Outlet />
           </main>
           <footer className="border-t px-4 py-4 text-center text-xs text-muted-foreground md:px-8">
@@ -128,6 +130,7 @@ function AppLayout() {
           </footer>
         </div>
       </div>
+      <CommandPalette />
     </SidebarProvider>
   );
 }
@@ -137,7 +140,16 @@ function RootComponent() {
   return (
     <QueryClientProvider client={queryClient}>
       <AppLayout />
-      <Toaster />
+      <Toaster
+        toastOptions={{
+          classNames: {
+            toast:
+              "!bg-foreground !text-background !border-foreground !rounded-xl !shadow-lg",
+            description: "!text-background/70",
+            actionButton: "!bg-background !text-foreground",
+          },
+        }}
+      />
     </QueryClientProvider>
   );
 }
