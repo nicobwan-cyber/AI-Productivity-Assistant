@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
-import { Mail, Loader2, RotateCw, Eraser } from "lucide-react";
+import { Mail, Loader2, RotateCw, Eraser, Sparkles } from "lucide-react";
+import { AiThinking } from "@/components/ai-loading";
 import { PageHeader } from "@/components/page-header";
 import { AiDisclaimer } from "@/components/ai-disclaimer";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
