@@ -131,17 +131,11 @@ function AppLayout() {
   );
 }
 
-function ApiPassthrough() {
-  return <Outlet />;
-}
-
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
-  const pathname = useRouterState({ select: (s) => s.location.pathname });
-  const isApi = pathname.startsWith("/api");
   return (
     <QueryClientProvider client={queryClient}>
-      {isApi ? <ApiPassthrough /> : <AppLayout />}
+      <AppLayout />
       <Toaster />
     </QueryClientProvider>
   );
