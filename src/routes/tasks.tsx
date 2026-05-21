@@ -191,9 +191,8 @@ function TasksPage() {
 
       {loading && !sections && (
         <Card className="shadow-sm">
-          <CardContent className="flex flex-col items-center justify-center py-16 text-muted-foreground">
-            <Loader2 className="h-8 w-8 animate-spin text-primary" />
-            <p className="text-sm mt-3">Building your task plan…</p>
+          <CardContent className="py-8">
+            <AiThinking label="Building your task plan…" lines={6} />
           </CardContent>
         </Card>
       )}
