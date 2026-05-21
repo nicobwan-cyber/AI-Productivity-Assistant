@@ -186,15 +186,29 @@ function EmailPage() {
             )}
           </CardHeader>
           <CardContent>
-            {loading && !result && (
-              <div className="flex flex-col items-center justify-center py-16 text-muted-foreground">
-                <Loader2 className="h-8 w-8 animate-spin text-primary" />
-                <p className="text-sm mt-3">Drafting your email…</p>
-              </div>
-            )}
+            {loading && !result && <AiThinking label="Drafting your email…" lines={6} />}
             {!loading && !result && (
-              <div className="rounded-xl border border-dashed bg-muted/30 p-10 text-center text-sm text-muted-foreground">
-                Your generated email will appear here.
+              <div className="rounded-xl border border-dashed bg-muted/30 p-8 text-center">
+                <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full border bg-background text-muted-foreground">
+                  <Mail className="h-5 w-5" />
+                </div>
+                <p className="mt-3 text-sm font-medium">No email yet</p>
+                <p className="mt-1 text-xs text-muted-foreground">
+                  Describe your purpose, or try an example:
+                </p>
+                <div className="mt-4 flex flex-wrap justify-center gap-2">
+                  {EXAMPLES.map((ex) => (
+                    <button
+                      key={ex}
+                      type="button"
+                      onClick={() => setPurpose(ex)}
+                      className="rounded-full border bg-background px-3 py-1 text-xs text-muted-foreground hover:bg-muted hover:text-foreground hover:border-foreground/30"
+                    >
+                      <Sparkles className="mr-1 inline h-3 w-3" />
+                      {ex}
+                    </button>
+                  ))}
+                </div>
               </div>
             )}
             {result && (
