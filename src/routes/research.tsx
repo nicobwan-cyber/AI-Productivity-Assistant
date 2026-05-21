@@ -173,16 +173,37 @@ function ResearchPage() {
         <div className="lg:col-span-3 space-y-4">
           {loading && !sections && (
             <Card className="shadow-sm">
-              <CardContent className="flex flex-col items-center justify-center py-20 text-muted-foreground">
-                <Loader2 className="h-8 w-8 animate-spin text-primary" />
-                <p className="text-sm mt-3">Synthesizing findings…</p>
+              <CardContent className="py-8">
+                <AiThinking label="Synthesizing findings…" lines={7} />
               </CardContent>
             </Card>
           )}
           {!loading && !sections && (
             <Card className="shadow-sm border-dashed">
-              <CardContent className="p-10 text-center text-sm text-muted-foreground">
-                Your research report will appear here.
+              <CardContent className="p-10 text-center">
+                <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full border bg-background text-muted-foreground">
+                  <Search className="h-5 w-5" />
+                </div>
+                <p className="mt-3 text-sm font-medium">Nothing researched yet</p>
+                <p className="mt-1 text-xs text-muted-foreground">
+                  Try a topic like “AI adoption trends in mid-market SaaS”.
+                </p>
+                <div className="mt-4 flex flex-wrap justify-center gap-2">
+                  {[
+                    "AI adoption in healthcare",
+                    "Remote work productivity trends",
+                    "Sustainable supply chain practices",
+                  ].map((ex) => (
+                    <button
+                      key={ex}
+                      type="button"
+                      onClick={() => setTopic(ex)}
+                      className="rounded-full border bg-background px-3 py-1 text-xs text-muted-foreground hover:bg-muted hover:text-foreground hover:border-foreground/30"
+                    >
+                      {ex}
+                    </button>
+                  ))}
+                </div>
               </CardContent>
             </Card>
           )}
