@@ -139,7 +139,10 @@ function MeetingsPage() {
               </Select>
             </div>
             <div className="space-y-2">
-              <Label>Notes / transcript</Label>
+              <div className="flex items-center justify-between">
+                <Label>Notes / transcript</Label>
+                <VoiceInputButton onResult={(t) => setNotes((p) => (p ? p + " " + t : t))} />
+              </div>
               <Textarea
                 rows={12}
                 placeholder="Paste your meeting notes or transcript here…"
