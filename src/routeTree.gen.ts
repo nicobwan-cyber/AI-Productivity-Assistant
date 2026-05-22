@@ -15,6 +15,7 @@ import { Route as TasksRouteImport } from './routes/tasks'
 import { Route as SettingsRouteImport } from './routes/settings'
 import { Route as ResearchRouteImport } from './routes/research'
 import { Route as MeetingsRouteImport } from './routes/meetings'
+import { Route as ImproveRouteImport } from './routes/improve'
 import { Route as EmailRouteImport } from './routes/email'
 import { Route as ChatRouteImport } from './routes/chat'
 import { Route as IndexRouteImport } from './routes/index'
@@ -50,6 +51,11 @@ const MeetingsRoute = MeetingsRouteImport.update({
   path: '/meetings',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ImproveRoute = ImproveRouteImport.update({
+  id: '/improve',
+  path: '/improve',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const EmailRoute = EmailRouteImport.update({
   id: '/email',
   path: '/email',
@@ -75,6 +81,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/chat': typeof ChatRoute
   '/email': typeof EmailRoute
+  '/improve': typeof ImproveRoute
   '/meetings': typeof MeetingsRoute
   '/research': typeof ResearchRoute
   '/settings': typeof SettingsRoute
@@ -87,6 +94,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/chat': typeof ChatRoute
   '/email': typeof EmailRoute
+  '/improve': typeof ImproveRoute
   '/meetings': typeof MeetingsRoute
   '/research': typeof ResearchRoute
   '/settings': typeof SettingsRoute
@@ -100,6 +108,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/chat': typeof ChatRoute
   '/email': typeof EmailRoute
+  '/improve': typeof ImproveRoute
   '/meetings': typeof MeetingsRoute
   '/research': typeof ResearchRoute
   '/settings': typeof SettingsRoute
@@ -114,6 +123,7 @@ export interface FileRouteTypes {
     | '/'
     | '/chat'
     | '/email'
+    | '/improve'
     | '/meetings'
     | '/research'
     | '/settings'
@@ -126,6 +136,7 @@ export interface FileRouteTypes {
     | '/'
     | '/chat'
     | '/email'
+    | '/improve'
     | '/meetings'
     | '/research'
     | '/settings'
@@ -138,6 +149,7 @@ export interface FileRouteTypes {
     | '/'
     | '/chat'
     | '/email'
+    | '/improve'
     | '/meetings'
     | '/research'
     | '/settings'
@@ -151,6 +163,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   ChatRoute: typeof ChatRoute
   EmailRoute: typeof EmailRoute
+  ImproveRoute: typeof ImproveRoute
   MeetingsRoute: typeof MeetingsRoute
   ResearchRoute: typeof ResearchRoute
   SettingsRoute: typeof SettingsRoute
@@ -204,6 +217,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MeetingsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/improve': {
+      id: '/improve'
+      path: '/improve'
+      fullPath: '/improve'
+      preLoaderRoute: typeof ImproveRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/email': {
       id: '/email'
       path: '/email'
@@ -239,6 +259,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   ChatRoute: ChatRoute,
   EmailRoute: EmailRoute,
+  ImproveRoute: ImproveRoute,
   MeetingsRoute: MeetingsRoute,
   ResearchRoute: ResearchRoute,
   SettingsRoute: SettingsRoute,
