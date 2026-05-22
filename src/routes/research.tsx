@@ -62,6 +62,19 @@ function ResearchPage() {
   const [loading, setLoading] = useState(false);
   const [raw, setRaw] = useState<string | null>(null);
 
+  useEffect(() => {
+    try {
+      const r = sessionStorage.getItem("template.prefill");
+      if (r) {
+        const { value, tool } = JSON.parse(r);
+        if (tool === "/research") setTopic(value);
+        sessionStorage.removeItem("template.prefill");
+      }
+    } catch {}
+  }, []);
+
+  const [raw_unused] = [null];
+  void raw_unused;
   async function go() {
     if (!topic.trim()) {
       toast.error("Add a research topic.");
