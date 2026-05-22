@@ -15,6 +15,7 @@ import { AppSidebar } from "@/components/app-sidebar";
 import { AppHeader } from "@/components/app-header";
 import { Toaster } from "@/components/ui/sonner";
 import { CommandPalette } from "@/components/command-palette";
+import { OnboardingDialog } from "@/components/onboarding-dialog";
 
 function NotFoundComponent() {
   return (
