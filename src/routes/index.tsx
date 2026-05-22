@@ -173,6 +173,10 @@ function Dashboard() {
         </div>
       </div>
 
+      <div className="grid gap-6 lg:grid-cols-2">
+        <StreakCard />
+        <InsightsCard />
+      </div>
       <AiDisclaimer />
     </div>
   );
