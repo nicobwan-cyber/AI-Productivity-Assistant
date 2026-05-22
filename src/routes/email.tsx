@@ -110,7 +110,10 @@ function EmailPage() {
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="space-y-2">
-              <Label>Email purpose</Label>
+              <div className="flex items-center justify-between">
+                <Label>Email purpose</Label>
+                <VoiceInputButton onResult={(t) => setPurpose((p) => (p ? p + " " + t : t))} />
+              </div>
               <Input
                 placeholder="e.g. Follow up with a prospect after a demo"
                 value={purpose}
