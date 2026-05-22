@@ -196,11 +196,15 @@ function EmailPage() {
               <CardDescription>Review, copy, or regenerate as needed.</CardDescription>
             </div>
             {result && (
-              <div className="flex gap-2">
+              <div className="flex flex-wrap gap-2">
                 <Button variant="outline" size="sm" onClick={generate} disabled={loading}>
                   <RotateCw className="h-3.5 w-3.5" /> Regenerate
                 </Button>
-                <CopyButton text={`Subject: ${result.subject}\n\n${result.body}`} />
+                <OutputToolbar
+                  text={`Subject: ${result.subject}\n\n${result.body}`}
+                  tool="Email"
+                  defaultTitle={result.subject || "Generated email"}
+                />
               </div>
             )}
           </CardHeader>
