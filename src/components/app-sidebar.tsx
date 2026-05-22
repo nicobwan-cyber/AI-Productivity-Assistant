@@ -7,6 +7,9 @@ import {
   Search,
   MessageSquare,
   Settings,
+  LibraryBig,
+  FolderOpen,
+  Wand2,
 } from "lucide-react";
 import logo from "@/assets/logo.png";
 import {
