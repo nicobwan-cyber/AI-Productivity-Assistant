@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Mail, Loader2, RotateCw, Eraser, Sparkles } from "lucide-react";
 import { AiThinking } from "@/components/ai-loading";
 import { PageHeader } from "@/components/page-header";
@@ -16,8 +16,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { CopyButton } from "@/components/copy-button";
+import { OutputToolbar } from "@/components/output-toolbar";
+import { QualityScore } from "@/components/quality-score";
+import { VoiceInputButton } from "@/components/voice-input-button";
 import { runAi } from "@/lib/ai-client";
+import { logActivity } from "@/lib/workspace";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/email")({
