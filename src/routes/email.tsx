@@ -47,6 +47,17 @@ function EmailPage() {
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<{ subject: string; body: string } | null>(null);
 
+  useEffect(() => {
+    try {
+      const raw = sessionStorage.getItem("template.prefill");
+      if (raw) {
+        const { value, tool } = JSON.parse(raw);
+        if (tool === "/email") setPurpose(value);
+        sessionStorage.removeItem("template.prefill");
+      }
+    } catch {}
+  }, []);
+
   async function generate() {
     if (!purpose.trim()) {
       toast.error("Please describe the email's purpose.");
@@ -56,7 +67,9 @@ function EmailPage() {
     try {
       const prompt = `Purpose: ${purpose}\nAudience/Recipient: ${audience || "general professional contact"}\nTone: ${tone}\nKey points to include:\n${points || "(none specified)"}\nDesired length: ${length}`;
       const text = await runAi(SYSTEM, prompt);
-      setResult(parseEmail(text));
+      const parsed = parseEmail(text);
+      setResult(parsed);
+      logActivity("Email", parsed.subject || "Drafted email");
       toast.success("Email generated");
     } catch (e) {
       toast.error((e as Error).message);
