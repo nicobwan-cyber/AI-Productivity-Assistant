@@ -71,6 +71,7 @@ function MeetingsPage() {
       const prompt = `Meeting title: ${title || "Untitled meeting"}\nSummary style: ${style}\n\nMeeting notes / transcript:\n${notes}`;
       const text = await runAi(SYSTEM, prompt);
       setRaw(text);
+      logActivity("Meetings", title || "Meeting summary");
       toast.success("Summary generated");
     } catch (e) {
       toast.error((e as Error).message);
