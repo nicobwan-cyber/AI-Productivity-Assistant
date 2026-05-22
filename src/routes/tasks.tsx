@@ -15,8 +15,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { CopyButton } from "@/components/copy-button";
+import { OutputToolbar } from "@/components/output-toolbar";
+import { QualityScore } from "@/components/quality-score";
+import { CalendarPlanner, buildDayPlan } from "@/components/calendar-planner";
 import { runAi } from "@/lib/ai-client";
+import { logActivity } from "@/lib/workspace";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/tasks")({
