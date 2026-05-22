@@ -204,8 +204,9 @@ function TasksPage() {
       {sections && (
         <>
           <div className="flex justify-end">
-            <CopyButton text={raw!} label="Copy plan" />
+            <OutputToolbar text={raw!} tool="Tasks" defaultTitle="Task plan" />
           </div>
+          <CalendarPlanner plan={buildDayPlan(tasks.filter((t) => t.name.trim()))} />
           <div className="grid gap-4 md:grid-cols-2">
             {sections.map((s) => (
               <Card key={s.title} className="shadow-sm">
@@ -220,6 +221,7 @@ function TasksPage() {
               </Card>
             ))}
           </div>
+          <QualityScore text={raw!} />
           <AiDisclaimer />
         </>
       )}
