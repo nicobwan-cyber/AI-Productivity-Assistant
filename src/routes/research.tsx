@@ -83,6 +83,7 @@ function ResearchPage() {
       const prompt = `Topic: ${topic}\nGoal: ${goal || "general understanding"}\nAudience: ${audience || "internal team"}\nDesired output type: ${output}\nAdditional context: ${context || "none"}`;
       const text = await runAi(SYSTEM, prompt);
       setRaw(text);
+      logActivity("Research", topic);
       toast.success("Research ready");
     } catch (e) {
       toast.error((e as Error).message);
