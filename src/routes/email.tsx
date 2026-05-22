@@ -246,6 +246,7 @@ function EmailPage() {
                     {result.body}
                   </pre>
                 </div>
+                <QualityScore text={`${result.subject}\n\n${result.body}`} />
                 <AiDisclaimer />
               </div>
             )}
