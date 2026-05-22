@@ -225,7 +225,7 @@ function ResearchPage() {
           {sections && (
             <>
               <div className="flex justify-end">
-                <CopyButton text={raw!} label="Copy report" />
+                <OutputToolbar text={raw!} tool="Research" defaultTitle={topic || "Research brief"} />
               </div>
               <div className="space-y-4">
                 {sections.map((s) => (
@@ -241,6 +241,7 @@ function ResearchPage() {
                   </Card>
                 ))}
               </div>
+              <QualityScore text={raw!} />
               <AiDisclaimer />
             </>
           )}
