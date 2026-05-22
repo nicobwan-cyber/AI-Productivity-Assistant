@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Mail, Loader2, RotateCw, Eraser, Sparkles } from "lucide-react";
 import { AiThinking } from "@/components/ai-loading";
 import { PageHeader } from "@/components/page-header";
@@ -16,8 +16,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { CopyButton } from "@/components/copy-button";
+import { OutputToolbar } from "@/components/output-toolbar";
+import { QualityScore } from "@/components/quality-score";
+import { VoiceInputButton } from "@/components/voice-input-button";
 import { runAi } from "@/lib/ai-client";
+import { logActivity } from "@/lib/workspace";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/email")({
@@ -44,6 +47,17 @@ function EmailPage() {
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<{ subject: string; body: string } | null>(null);
 
+  useEffect(() => {
+    try {
+      const raw = sessionStorage.getItem("template.prefill");
+      if (raw) {
+        const { value, tool } = JSON.parse(raw);
+        if (tool === "/email") setPurpose(value);
+        sessionStorage.removeItem("template.prefill");
+      }
+    } catch {}
+  }, []);
+
   async function generate() {
     if (!purpose.trim()) {
       toast.error("Please describe the email's purpose.");
@@ -53,7 +67,9 @@ function EmailPage() {
     try {
       const prompt = `Purpose: ${purpose}\nAudience/Recipient: ${audience || "general professional contact"}\nTone: ${tone}\nKey points to include:\n${points || "(none specified)"}\nDesired length: ${length}`;
       const text = await runAi(SYSTEM, prompt);
-      setResult(parseEmail(text));
+      const parsed = parseEmail(text);
+      setResult(parsed);
+      logActivity("Email", parsed.subject || "Drafted email");
       toast.success("Email generated");
     } catch (e) {
       toast.error((e as Error).message);
@@ -94,7 +110,10 @@ function EmailPage() {
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="space-y-2">
-              <Label>Email purpose</Label>
+              <div className="flex items-center justify-between">
+                <Label>Email purpose</Label>
+                <VoiceInputButton onResult={(t) => setPurpose((p) => (p ? p + " " + t : t))} />
+              </div>
               <Input
                 placeholder="e.g. Follow up with a prospect after a demo"
                 value={purpose}
@@ -177,11 +196,15 @@ function EmailPage() {
               <CardDescription>Review, copy, or regenerate as needed.</CardDescription>
             </div>
             {result && (
-              <div className="flex gap-2">
+              <div className="flex flex-wrap gap-2">
                 <Button variant="outline" size="sm" onClick={generate} disabled={loading}>
                   <RotateCw className="h-3.5 w-3.5" /> Regenerate
                 </Button>
-                <CopyButton text={`Subject: ${result.subject}\n\n${result.body}`} />
+                <OutputToolbar
+                  text={`Subject: ${result.subject}\n\n${result.body}`}
+                  tool="Email"
+                  defaultTitle={result.subject || "Generated email"}
+                />
               </div>
             )}
           </CardHeader>
@@ -223,6 +246,7 @@ function EmailPage() {
                     {result.body}
                   </pre>
                 </div>
+                <QualityScore text={`${result.subject}\n\n${result.body}`} />
                 <AiDisclaimer />
               </div>
             )}

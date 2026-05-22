@@ -16,6 +16,9 @@ import {
   Search,
   MessageSquare,
   Settings,
+  LibraryBig,
+  FolderOpen,
+  Wand2,
 } from "lucide-react";
 
 const items = [
@@ -24,7 +27,10 @@ const items = [
   { title: "Meeting Notes Summarizer", url: "/meetings", icon: FileText },
   { title: "AI Task Planner", url: "/tasks", icon: ListChecks },
   { title: "AI Research Assistant", url: "/research", icon: Search },
+  { title: "Improve My Writing", url: "/improve", icon: Wand2 },
   { title: "AI Chatbot", url: "/chat", icon: MessageSquare },
+  { title: "Templates", url: "/templates", icon: LibraryBig },
+  { title: "Workspace", url: "/workspace", icon: FolderOpen },
   { title: "Settings", url: "/settings", icon: Settings },
 ];
 

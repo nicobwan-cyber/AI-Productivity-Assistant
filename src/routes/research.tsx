@@ -16,9 +16,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { CopyButton } from "@/components/copy-button";
+import { OutputToolbar } from "@/components/output-toolbar";
+import { QualityScore } from "@/components/quality-score";
 import { runAi } from "@/lib/ai-client";
+import { logActivity } from "@/lib/workspace";
 import { toast } from "sonner";
+import { useEffect } from "react";
 
 export const Route = createFileRoute("/research")({
   component: ResearchPage,
@@ -59,6 +62,17 @@ function ResearchPage() {
   const [loading, setLoading] = useState(false);
   const [raw, setRaw] = useState<string | null>(null);
 
+  useEffect(() => {
+    try {
+      const r = sessionStorage.getItem("template.prefill");
+      if (r) {
+        const { value, tool } = JSON.parse(r);
+        if (tool === "/research") setTopic(value);
+        sessionStorage.removeItem("template.prefill");
+      }
+    } catch {}
+  }, []);
+
   async function go() {
     if (!topic.trim()) {
       toast.error("Add a research topic.");
@@ -69,6 +83,7 @@ function ResearchPage() {
       const prompt = `Topic: ${topic}\nGoal: ${goal || "general understanding"}\nAudience: ${audience || "internal team"}\nDesired output type: ${output}\nAdditional context: ${context || "none"}`;
       const text = await runAi(SYSTEM, prompt);
       setRaw(text);
+      logActivity("Research", topic);
       toast.success("Research ready");
     } catch (e) {
       toast.error((e as Error).message);
@@ -210,7 +225,7 @@ function ResearchPage() {
           {sections && (
             <>
               <div className="flex justify-end">
-                <CopyButton text={raw!} label="Copy report" />
+                <OutputToolbar text={raw!} tool="Research" defaultTitle={topic || "Research brief"} />
               </div>
               <div className="space-y-4">
                 {sections.map((s) => (
@@ -226,6 +241,7 @@ function ResearchPage() {
                   </Card>
                 ))}
               </div>
+              <QualityScore text={raw!} />
               <AiDisclaimer />
             </>
           )}

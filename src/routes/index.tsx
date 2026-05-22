@@ -13,6 +13,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Button } from "@/components/ui/button";
 import { AiDisclaimer } from "@/components/ai-disclaimer";
 import { Badge } from "@/components/ui/badge";
+import { StreakCard, InsightsCard } from "@/components/dashboard-extras";
 
 export const Route = createFileRoute("/")({
   component: Dashboard,
@@ -172,6 +173,10 @@ function Dashboard() {
         </div>
       </div>
 
+      <div className="grid gap-6 lg:grid-cols-2">
+        <StreakCard />
+        <InsightsCard />
+      </div>
       <AiDisclaimer />
     </div>
   );

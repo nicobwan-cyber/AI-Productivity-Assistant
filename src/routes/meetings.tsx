@@ -16,9 +16,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { CopyButton } from "@/components/copy-button";
+import { OutputToolbar } from "@/components/output-toolbar";
+import { QualityScore } from "@/components/quality-score";
+import { VoiceInputButton } from "@/components/voice-input-button";
 import { runAi } from "@/lib/ai-client";
+import { logActivity } from "@/lib/workspace";
 import { toast } from "sonner";
+import { useEffect } from "react";
 
 export const Route = createFileRoute("/meetings")({
   component: MeetingsPage,
@@ -57,6 +61,17 @@ function MeetingsPage() {
   const [loading, setLoading] = useState(false);
   const [raw, setRaw] = useState<string | null>(null);
 
+  useEffect(() => {
+    try {
+      const r = sessionStorage.getItem("template.prefill");
+      if (r) {
+        const { value, tool } = JSON.parse(r);
+        if (tool === "/meetings") setNotes(value);
+        sessionStorage.removeItem("template.prefill");
+      }
+    } catch {}
+  }, []);
+
   async function summarize() {
     if (!notes.trim()) {
       toast.error("Paste meeting notes or a transcript first.");
@@ -67,6 +82,7 @@ function MeetingsPage() {
       const prompt = `Meeting title: ${title || "Untitled meeting"}\nSummary style: ${style}\n\nMeeting notes / transcript:\n${notes}`;
       const text = await runAi(SYSTEM, prompt);
       setRaw(text);
+      logActivity("Meetings", title || "Meeting summary");
       toast.success("Summary generated");
     } catch (e) {
       toast.error((e as Error).message);
@@ -123,7 +139,10 @@ function MeetingsPage() {
               </Select>
             </div>
             <div className="space-y-2">
-              <Label>Notes / transcript</Label>
+              <div className="flex items-center justify-between">
+                <Label>Notes / transcript</Label>
+                <VoiceInputButton onResult={(t) => setNotes((p) => (p ? p + " " + t : t))} />
+              </div>
               <Textarea
                 rows={12}
                 placeholder="Paste your meeting notes or transcript here…"
@@ -172,7 +191,7 @@ function MeetingsPage() {
           {sections && (
             <>
               <div className="flex justify-end">
-                <CopyButton text={raw!} label="Copy summary" />
+                <OutputToolbar text={raw!} tool="Meetings" defaultTitle={title || "Meeting summary"} />
               </div>
               <div className="grid gap-4 sm:grid-cols-2">
                 {sections.map((s) => (
@@ -188,6 +207,7 @@ function MeetingsPage() {
                   </Card>
                 ))}
               </div>
+              <QualityScore text={raw!} />
               <AiDisclaimer />
             </>
           )}

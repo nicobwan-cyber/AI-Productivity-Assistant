@@ -15,8 +15,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { CopyButton } from "@/components/copy-button";
+import { OutputToolbar } from "@/components/output-toolbar";
+import { QualityScore } from "@/components/quality-score";
+import { CalendarPlanner, buildDayPlan } from "@/components/calendar-planner";
 import { runAi } from "@/lib/ai-client";
+import { logActivity } from "@/lib/workspace";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/tasks")({
@@ -87,6 +90,7 @@ function TasksPage() {
       const prompt = `Working hours preference: ${hours}\n\nTasks:\n${taskList}`;
       const text = await runAi(SYSTEM, prompt);
       setRaw(text);
+      logActivity("Tasks", `Planned ${filled.length} task(s)`);
       toast.success("Task plan created");
     } catch (e) {
       toast.error((e as Error).message);
@@ -200,8 +204,9 @@ function TasksPage() {
       {sections && (
         <>
           <div className="flex justify-end">
-            <CopyButton text={raw!} label="Copy plan" />
+            <OutputToolbar text={raw!} tool="Tasks" defaultTitle="Task plan" />
           </div>
+          <CalendarPlanner plan={buildDayPlan(tasks.filter((t) => t.name.trim()))} />
           <div className="grid gap-4 md:grid-cols-2">
             {sections.map((s) => (
               <Card key={s.title} className="shadow-sm">
@@ -216,6 +221,7 @@ function TasksPage() {
               </Card>
             ))}
           </div>
+          <QualityScore text={raw!} />
           <AiDisclaimer />
         </>
       )}
