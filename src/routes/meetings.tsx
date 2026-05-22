@@ -177,7 +177,7 @@ function MeetingsPage() {
           {sections && (
             <>
               <div className="flex justify-end">
-                <CopyButton text={raw!} label="Copy summary" />
+                <OutputToolbar text={raw!} tool="Meetings" defaultTitle={title || "Meeting summary"} />
               </div>
               <div className="grid gap-4 sm:grid-cols-2">
                 {sections.map((s) => (
@@ -193,6 +193,7 @@ function MeetingsPage() {
                   </Card>
                 ))}
               </div>
+              <QualityScore text={raw!} />
               <AiDisclaimer />
             </>
           )}
