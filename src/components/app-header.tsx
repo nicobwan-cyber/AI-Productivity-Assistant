@@ -1,7 +1,6 @@
-import { Search } from "lucide-react";
+import { Search, User } from "lucide-react";
 import { useEffect, useState } from "react";
 import { SidebarTrigger } from "@/components/ui/sidebar";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 
 export function AppHeader() {
   const [isMac, setIsMac] = useState(false);
