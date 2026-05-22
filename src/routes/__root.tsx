@@ -138,6 +138,7 @@ function AppLayout() {
         </div>
       </div>
       <CommandPalette />
+      <OnboardingDialog />
     </SidebarProvider>
   );
 }
