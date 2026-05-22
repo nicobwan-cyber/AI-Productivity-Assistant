@@ -73,8 +73,6 @@ function ResearchPage() {
     } catch {}
   }, []);
 
-  const [raw_unused] = [null];
-  void raw_unused;
   async function go() {
     if (!topic.trim()) {
       toast.error("Add a research topic.");
