@@ -76,7 +76,7 @@ function Dashboard() {
           <Sparkles className="h-3 w-3" />
           Welcome back
         </Badge>
-        <h1 className="text-3xl font-semibold tracking-tight">Good to see you, Jordan 👋</h1>
+        <h1 className="text-3xl font-semibold tracking-tight">Good to see you 👋</h1>
         <p className="text-muted-foreground max-w-2xl">
           Your AI workplace co-pilot is ready. Draft an email, plan your tasks, or summarize a meeting
           in seconds.
